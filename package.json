@@ -1,0 +1,22 @@
+{
+  "name": "Account-API",
+  "version": "0.0.1",
+  "description": "Account API for Swipe",
+  "main": "app.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AlgoProjectH1/api-account"
+  },
+  "author": "H1 HETIC",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AlgoProjectH1/api-account/issues"
+  },
+  "homepage": "https://github.com/AlgoProjectH1/api-account"
+}
