@@ -9,6 +9,10 @@ var bodyParser = require('body-parser');
 /**
  * Application includes
  */
+global.configs = {
+    database: require('./lib/database.config.js'),
+    app: require('./lib/app.config.js')
+};
 var headersInit = require('./lib/headers.js');
 var autorizationCheck = require('./lib/autorization.js');
 var outputs = require('./lib/outputs.js');
@@ -18,6 +22,9 @@ var outputs = require('./lib/outputs.js');
  * Application configuration
  */
 var app = express();
+var routes = {
+    home: require('./src/controllers/root.js')
+};
 
 
 /**
@@ -31,13 +38,11 @@ app.use(headersInit());
 /**
  * Application routing
  */
-app.get('/', function (req, res) {
-    
-});
+app.get('/', autorizationCheck.api, routes.home);
 
 
 /**
  * Launch application
  */
 app.listen(1337);
-outputs.success("Account API server ready...");
+outputs.write("Account API server ready...");
