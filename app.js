@@ -35,8 +35,9 @@ connection.connect();
  */
 var app = express();
 var routes = {
-    home:   require('./src/controllers/root.js'),
-    login:  require('./src/controllers/login.js')
+    home:       require('./src/controllers/root.js'),
+    login:      require('./src/controllers/login.js'),
+    facebook:   require ('./src/controllers/facebook.login.js')
 };
 var models = {
     users:  require('./src/models/users.js').init(connection, sha1),
@@ -61,6 +62,7 @@ app.use(headersInit());
  */
 app.get('/', autorizationCheck.api, routes.home);
 app.post('/login', autorizationCheck.api, routes.login);
+app.post('/login/facebook', autorizationCheck.api, routes.facebook);
 
 
 
