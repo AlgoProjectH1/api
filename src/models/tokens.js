@@ -54,7 +54,7 @@ module.exports = {
      * Delete a token from a device
      * @param string device
      */
-    deleteFromUuid: function (device) {
+    deleteFromDevice: function (device) {
         this.connection.query("DELETE FROM tokens WHERE device = '"+ device +"'");
     },
 
