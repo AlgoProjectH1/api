@@ -5,6 +5,7 @@ var express = require('express');
 var methodOverride = require('method-override');
 var bodyParser = require('body-parser');
 var mysql = require('mysql');
+var sha1 = require('sha1');
 
 
 
@@ -38,8 +39,8 @@ var routes = {
     login:  require('./src/controllers/login.js')
 };
 var models = {
-    users:  require('./src/models/users.js'),
-    tokens: require('./src/models/tokens.js')
+    users:  require('./src/models/users.js').init(connection, sha1),
+    tokens: require('./src/models/tokens.js').init(connection, sha1)
 };
 models.users.setTokenManager(models.tokens);
 app.set('models', models);

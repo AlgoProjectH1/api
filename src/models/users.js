@@ -22,4 +22,51 @@ module.exports = {
     setTokenManager: function (tokenManager) {
         this.tokenManager = tokenManager;
     },
+
+    /**
+     * Login an user
+     * @param object options
+     * @param function failure
+     * @param function success
+     */
+    login: function (options, failure, success) {
+        if (options.pseudo == null) {
+            failure("Le pseudo fourni est invalide");
+            return false;
+        }
+
+        if (options.password == null) {
+            failure("Le mot de passe fourni est invalide");
+            return false;
+        }
+
+        var password = this.sha1(options.password);
+        var connection = this.connection;
+        var tokenManager = this.tokenManager;
+
+        // Verify the provided connection infos
+        connection.query("SELECT id, COUNT(id) AS count FROM users WHERE username = '" + options.pseudo +"' AND password = '"+ password +"'", function (error, rows)
+        {
+            if (error || rows[0].count <= 0) {
+                console.log(error);
+                failure("Aucun compte n'existe avec ces identifiants");
+                return false;
+            }
+
+            var user_id = rows[0].id;
+            var token = tokenManager.generate();
+
+            // Save the token
+            connection.query("INSERT INTO tokens SET token = '"+ token +"', users_id = "+ user_id +", device = '"+ options.device +"'", function (error)
+            {
+                if (error) {
+                    console.log(error);
+                    fail("Une erreur est survenue durant la génération du jeton de connexion");
+                    return false;
+                }
+
+                success(tokenManager.format(token, user_id));
+            });
+        });
+    }
 };
