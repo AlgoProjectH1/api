@@ -2,8 +2,7 @@ module.exports = {
     connection: "",
     sha1: "",
 
-    init: function (connection, sha1)
-    {
+    init: function (connection, sha1) {
         this.connection = connection;
         this.sha1 = sha1;
 
@@ -17,8 +16,7 @@ module.exports = {
      *     device Device of the user
      * @return string
      */
-    generate: function ()
-    {
+    generate: function () {
         var rand = Math.floor(Math.random() * 10 + 1);
         var dateCalc = Date.now();
         var token = this.sha1(dateCalc * rand);
@@ -33,8 +31,7 @@ module.exports = {
      * @param string device
      * @return string
      */
-    format: function (token, user)
-    {
+    format: function (token, user) {
         return token +":"+ user;
     },
 
@@ -43,8 +40,7 @@ module.exports = {
      * @param string token
      * @param object
      */
-    decode: function (token)
-    {
+    decode: function (token) {
         token = token.split(':');
 
         return {
@@ -58,8 +54,7 @@ module.exports = {
      * Delete a token from a device
      * @param string device
      */
-    deleteFromUuid: function (device)
-    {
+    deleteFromUuid: function (device) {
         this.connection.query("DELETE FROM tokens WHERE device = '"+ device +"'");
     },
 
@@ -67,8 +62,7 @@ module.exports = {
      * Update the last use of a token
      * @param string token
      */
-    updateLastUse: function (token, user)
-    {
+    updateLastUse: function (token, user) {
         this.connection.query("UPDATE tokens SET last_use = "+ Date.now() +" WHERE token = '"+ token +"' AND users_id = "+ user);
     },
 
@@ -80,12 +74,10 @@ module.exports = {
      * @param function success
      * @param function fail
      */
-    verify: function (token, user, device, success, fail)
-    {
+    verify: function (token, user, device, success, fail) {
         var current = this;
 
-        current.connection.query("SELECT COUNT(token) AS count FROM tokens WHERE token = '"+ token +"' AND users_id = '"+ user +"' AND device = '"+ device +"'", function (error, rows)
-        {
+        current.connection.query("SELECT COUNT(token) AS count FROM tokens WHERE token = '"+ token +"' AND users_id = '"+ user +"' AND device = '"+ device +"'", function (error, rows) {
             if (error) {
                 console.log(error);
                 fail("Impossible de vérifier la validité de votre jeton de connexion");
