@@ -18,7 +18,7 @@ global.configs = {
 var headersInit = require('./lib/headers.js');
 var autorizationCheck = require('./lib/autorization.js');
 var outputs = require('./lib/outputs.js');
-var connection = mysql.createConnection(configs.database);
+var connection = mysql.createConnection(global.configs.database);
 
 
 
