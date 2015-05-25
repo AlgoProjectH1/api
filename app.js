@@ -13,9 +13,21 @@ var sha1 = require('sha1');
  * Application includes
  */
 global.configs = {
-    database:   require('./lib/database.config.js'),
-    app:        require('./lib/app.config.js')
+    app: require('./lib/app.config.js')
 };
+
+// If we are in development environment
+if (!process.env.mysql_database) {
+    global.configs.database =  require('./lib/database.config.js');
+} else {
+    global.configs.database = {
+        host    : process.env.mysql_host,
+        user    : process.env.mysql_user,
+        password: process.env.mysql_password,
+        database: process.env.mysql_database
+    };
+}
+
 var headersInit = require('./lib/headers.js');
 var autorizationCheck = require('./lib/autorization.js');
 var outputs = require('./lib/outputs.js');
@@ -71,5 +83,5 @@ app.get('/token', autorizationCheck.api, routes.token);
 /**
  * Launch application
  */
-app.listen(1337);
+app.listen(process.env.PORT || 1337);
 outputs.write("Account API server ready...");
