@@ -29,7 +29,7 @@ Login.index = function (req, res) {
     }
 
     Login.models.users.login({
-        email: email,
+        email: pseudo,
         password: password,
         device: 'computer'
     }, Login.failure, Login.success);
