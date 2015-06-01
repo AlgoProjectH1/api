@@ -4,7 +4,7 @@ var Login = {
 };
 
 Login.index = function (req, res) {
-    var pseudo = req.body.pseudo ? req.body.pseudo : false;
+    var pseudo = req.body.email ? req.body.email : false;
     var password = req.body.password ? req.body.password : false;
 
     Login.res = res;
@@ -13,7 +13,7 @@ Login.index = function (req, res) {
     if (!pseudo) {
         res.send(JSON.stringify({
             error: true,
-            message: "Merci d'indiquer un pseudo"
+            message: "Merci d'indiquer un email"
         }));
 
         return false;
@@ -29,7 +29,7 @@ Login.index = function (req, res) {
     }
 
     Login.models.users.login({
-        pseudo: pseudo,
+        email: email,
         password: password,
         device: 'computer'
     }, Login.failure, Login.success);

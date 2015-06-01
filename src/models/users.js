@@ -30,8 +30,8 @@ module.exports = {
      * @param function success
      */
     login: function (options, failure, success) {
-        if (options.pseudo == null) {
-            failure("Le pseudo fourni est invalide");
+        if (options.email == null) {
+            failure("L'email fourni est invalide");
             return false;
         }
 
@@ -45,7 +45,7 @@ module.exports = {
         var tokenManager = this.tokenManager;
 
         // Verify the provided connection infos
-        connection.query("SELECT id, COUNT(id) AS count FROM users WHERE username = '" + options.pseudo +"' AND password = '"+ password +"'", function (error, rows)
+        connection.query("SELECT id, COUNT(id) AS count FROM users WHERE email = '" + options.email +"' AND password = '"+ password +"'", function (error, rows)
         {
             if (error || rows[0].count <= 0) {
                 console.log(error);
