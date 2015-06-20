@@ -50,7 +50,8 @@ var routes = {
     home:       require('./src/controllers/root.js'),
     login:      require('./src/controllers/login.js'),
     facebook:   require ('./src/controllers/facebook.login.js'),
-    token:      require ('./src/controllers/token.js')
+    token:      require ('./src/controllers/token.js'),
+    user:       require ('./src/controllers/user.js')
 };
 var models = {
     users:  require('./src/models/users.js').init(connection, sha1),
@@ -77,6 +78,7 @@ app.get('/', autorizationCheck.api, routes.home);
 app.post('/login', autorizationCheck.api, routes.login);
 app.post('/login/facebook', autorizationCheck.api, routes.facebook);
 app.get('/token', autorizationCheck.api, routes.token);
+app.get('/me', autorizationCheck.api, autorizationCheck.token, routes.user.infos);
 
 
 
