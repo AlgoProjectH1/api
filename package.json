@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/AlgoProjectH1/api-account",
   "dependencies": {
+    "MD5": "^1.2.2",
     "body-parser": "^1.12.4",
     "colors": "^1.1.0",
     "express": "^4.12.4",
