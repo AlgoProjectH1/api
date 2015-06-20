@@ -30,12 +30,12 @@ module.exports = {
      * @param function success
      */
     login: function (options, failure, success) {
-        if (options.email == null) {
+        if (options.email === null) {
             failure("L'email fourni est invalide");
             return false;
         }
 
-        if (options.password == null) {
+        if (options.password === null) {
             failure("Le mot de passe fourni est invalide");
             return false;
         }
