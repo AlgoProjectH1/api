@@ -81,14 +81,20 @@ module.exports = {
         var tokenManager = this.tokenManager;
 
         // Verify the provided connection infos
-        connection.query("SELECT id, COUNT(id) AS count FROM users WHERE facebook_id = '" + options.facebookID +"'", function (error, rows)
+        connection.query("SELECT users_id, COUNT(facebook_id) AS count FROM users_facebook WHERE facebook_id = '" + options.facebookID +"'", function (error, rows)
         {
-            if (error || rows[0].count <= 0) {
+            if (error) {
+                console.log(error);
+                failure("Une erreur est survenue durant la connexion");
+                return false;
+            }
+
+            if (rows[0].count <= 0) {
                 // We create the account
                 return false;
             }
 
-            var user_id = rows[0].id;
+            var user_id = rows[0].users_id;
             var token = tokenManager.generate();
 
             // Save the token
