@@ -1,7 +1,7 @@
 var Token = {};
 
 /**
- * Lorsqu'un utilisateur connecte revient, on verifie son token
+ * When a user wants to verify his token
  * GET /token
  * @param token
  */
@@ -27,7 +27,7 @@ Token.index = function (req, res) {
 
 
 /**
- * Losqu'il y a une erreur
+ * When there is an error
  * @param string error
  */
 Token.failure = function (error) {
@@ -39,7 +39,7 @@ Token.failure = function (error) {
 
 
 /**
- * Lorsque tout est ok
+ * When everything is ok
  */
 Token.success = function () {
     Token.res.send(JSON.stringify({

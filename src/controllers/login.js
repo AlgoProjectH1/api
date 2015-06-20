@@ -5,7 +5,7 @@ var Login = {
 
 
 /**
- * Lorsqu'un utilisateur souhaite se connecter
+ * When a user wants to connect
  * POST /login
  * @param email
  * @param password
@@ -45,7 +45,7 @@ Login.index = function (req, res) {
 
 
 /**
- * Lorsqu'une erreur survient
+ * When there is an error
  * @param string errorMessage
  */
 Login.failure = function (errorMessage) {
@@ -57,7 +57,7 @@ Login.failure = function (errorMessage) {
 
 
 /**
- * Lorsque tout est ok
+ * When everything is ok
  * @param string token
  */
 Login.success = function (token) {

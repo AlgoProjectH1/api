@@ -5,7 +5,7 @@ var fbLogin = {
 
 
 /**
- * Lorsqu'un utilisateur souhaite se connecter via Facebook
+ * When a user wants to connect using facebook
  * POST /login/facebook
  * @param fbID
  */
@@ -33,7 +33,7 @@ fbLogin.index = function (req, res) {
 
 
 /**
- * Lorsqu'il y a une erreur
+ * When there is an error
  * @param string errorMessage
  */
 fbLogin.failure = function (errorMessage) {
@@ -45,7 +45,7 @@ fbLogin.failure = function (errorMessage) {
 
 
 /**
- * Lorsque tout est ok
+ * When everything is ok
  * @param string token
  */
 fbLogin.success = function (token) {
