@@ -3,6 +3,13 @@ var Login = {
     models: ""
 };
 
+
+/**
+ * Lorsqu'un utilisateur souhaite se connecter
+ * POST /login
+ * @param email
+ * @param password
+ */
 Login.index = function (req, res) {
     var pseudo = req.body.email ? req.body.email : false;
     var password = req.body.password ? req.body.password : false;
@@ -36,6 +43,11 @@ Login.index = function (req, res) {
 
 };
 
+
+/**
+ * Lorsqu'une erreur survient
+ * @param string errorMessage
+ */
 Login.failure = function (errorMessage) {
     Login.res.send(JSON.stringify({
         error: true,
@@ -43,6 +55,11 @@ Login.failure = function (errorMessage) {
     }));
 };
 
+
+/**
+ * Lorsque tout est ok
+ * @param string token
+ */
 Login.success = function (token) {
     var decodedToken = Login.models.tokens.decode(token);
     Login.models.tokens.updateLastUse(decodedToken.token, decodedToken.user);

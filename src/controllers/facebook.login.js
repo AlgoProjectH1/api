@@ -3,6 +3,12 @@ var fbLogin = {
     models: ""
 };
 
+
+/**
+ * Lorsqu'un utilisateur souhaite se connecter via Facebook
+ * POST /login/facebook
+ * @param fbID
+ */
 fbLogin.index = function (req, res) {
     var fbID = req.body.fbID ? req.body.fbID : false;
 
@@ -25,6 +31,11 @@ fbLogin.index = function (req, res) {
 
 };
 
+
+/**
+ * Lorsqu'il y a une erreur
+ * @param string errorMessage
+ */
 fbLogin.failure = function (errorMessage) {
     fbLogin.res.send(JSON.stringify({
         error: true,
@@ -32,6 +43,11 @@ fbLogin.failure = function (errorMessage) {
     }));
 };
 
+
+/**
+ * Lorsque tout est ok
+ * @param string token
+ */
 fbLogin.success = function (token) {
     var decodedToken = fbLogin.models.tokens.decode(token);
     fbLogin.models.tokens.updateLastUse(decodedToken.token, decodedToken.user);
