@@ -61,7 +61,7 @@ module.exports = {
             {
                 if (error) {
                     console.log(error);
-                    fail("Une erreur est survenue durant la génération du jeton de connexion");
+                    failure("Une erreur est survenue durant la génération du jeton de connexion");
                     return false;
                 }
 
@@ -96,12 +96,32 @@ module.exports = {
             {
                 if (error) {
                     console.log(error);
-                    fail("Une erreur est survenue durant la génération du jeton de connexion");
+                    failure("Une erreur est survenue durant la génération du jeton de connexion");
                     return false;
                 }
 
                 success(tokenManager.format(token, user_id));
             });
+        });
+    },
+
+    /**
+     * Get user datas from an id
+     * @param int id
+     * @param function failure
+     * @param function success
+     */
+    getDatas: function (id, failure, success) {
+        var connection = this.connection;
+
+        connection.query("SELECT username, email, rank FROM users WHERE id = "+ id +"", function (error, rows) {
+            if (error) {
+                console.log(error);
+                failure("Une erreur est survenue durant la recuperation des informations");
+                return false;
+            }
+
+            success(rows[0]);
         });
     }
 };
