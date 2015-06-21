@@ -8,8 +8,6 @@ var Token = {};
 Token.index = function (req, res) {
     var token = req.query.token ? req.query.token : false;
 
-    Token.res = res;
-
     if (!token) {
         res.send(JSON.stringify(401, {
             error: true,
