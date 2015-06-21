@@ -14,7 +14,6 @@ Login.index = function (req, res) {
     var pseudo = req.body.email ? req.body.email : false;
     var password = req.body.password ? req.body.password : false;
 
-    Login.res = res;
     Login.models = req.app.get('models');
 
     if (!pseudo) {
@@ -39,7 +38,10 @@ Login.index = function (req, res) {
         email: pseudo,
         password: password,
         device: 'computer'
-    }, Login.failure, Login.success);
+    },
+        function (error) { Login.failure(res, error); },
+        function (token) { Login.success(res, token); }
+    );
 
 };
 
@@ -48,8 +50,8 @@ Login.index = function (req, res) {
  * When there is an error
  * @param string errorMessage
  */
-Login.failure = function (errorMessage) {
-    Login.res.send(JSON.stringify({
+Login.failure = function (res, errorMessage) {
+    res.send(JSON.stringify({
         error: true,
         message: errorMessage
     }));
@@ -60,11 +62,11 @@ Login.failure = function (errorMessage) {
  * When everything is ok
  * @param string token
  */
-Login.success = function (token) {
+Login.success = function (res, token) {
     var decodedToken = Login.models.tokens.decode(token);
     Login.models.tokens.updateLastUse(decodedToken.token, decodedToken.user);
 
-    Login.res.send(JSON.stringify({
+    res.send(JSON.stringify({
         error: false,
         token: token
     }));
