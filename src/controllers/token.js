@@ -22,7 +22,10 @@ Token.index = function (req, res) {
     var models = req.app.get('models');
     token = models.tokens.decode(token);
 
-    models.tokens.verify(token.token, token.user, token.device, Token.success, Token.failure);
+    models.tokens.verify(token.token, token.user, token.device,
+        function () { Token.success(res); },
+        function (error) { Token.failure(res, error); }
+    );
 };
 
 
@@ -30,8 +33,8 @@ Token.index = function (req, res) {
  * When there is an error
  * @param string error
  */
-Token.failure = function (error) {
-    Token.res.send(401, JSON.stringify({
+Token.failure = function (res, error) {
+    res.send(401, JSON.stringify({
         error: true,
         message: error
     }));
@@ -41,8 +44,8 @@ Token.failure = function (error) {
 /**
  * When everything is ok
  */
-Token.success = function () {
-    Token.res.send(JSON.stringify({
+Token.success = function (res) {
+    res.send(JSON.stringify({
         error: false,
     }));
 };
