@@ -7,13 +7,14 @@ var User = {};
  * GET /me
  */
 User.infos = function (req, res) {
-    User.res = res;
-
     var models = req.app.get('models');
     var token = req.query.token;
     token = models.tokens.decode(token);
 
-    models.users.getDatas(token.user, User.infosFailure, User.infosSuccess);
+    models.users.getDatas(token.user,
+        function (error) { User.infosFailure(res, error); },
+        function (datas) { User.infosSuccess(res, datas); }
+    );
 };
 
 
@@ -21,8 +22,8 @@ User.infos = function (req, res) {
  * When there is an error (get infos)
  * @param string message
  */
-User.infosFailure = function (message) {
-    User.res.send(JSON.stringify({
+User.infosFailure = function (res, message) {
+    res.send(JSON.stringify({
         error: true,
         message: message
     }));
@@ -33,10 +34,10 @@ User.infosFailure = function (message) {
  * When everything is ok (get infos)
  * @param datas
  */
-User.infosSuccess = function (datas) {
+User.infosSuccess = function (res, datas) {
     datas.picture = md5(datas.email);
 
-    User.res.send(JSON.stringify({
+    res.send(JSON.stringify({
         error: false,
         infos: datas
     }));
