@@ -52,11 +52,13 @@ var routes = {
     signup:     require('./src/controllers/signup.js'),
     facebook:   require ('./src/controllers/facebook.login.js'),
     token:      require ('./src/controllers/token.js'),
-    user:       require ('./src/controllers/user.js')
+    user:       require ('./src/controllers/user.js'),
+    results:    require ('./src/controllers/results.js')
 };
 var models = {
-    users:  require('./src/models/users.js').init(connection, sha1),
-    tokens: require('./src/models/tokens.js').init(connection, sha1)
+    users:      require('./src/models/users.js').init(connection, sha1),
+    tokens:     require('./src/models/tokens.js').init(connection, sha1),
+    results:    require('./src/models/results.js').init(connection)
 };
 models.users.setTokenManager(models.tokens);
 app.set('models', models);
@@ -81,6 +83,7 @@ app.post('/signup', autorizationCheck.api, routes.signup);
 app.post('/login/facebook', autorizationCheck.api, routes.facebook);
 app.get('/token', autorizationCheck.api, routes.token);
 app.get('/me', autorizationCheck.api, autorizationCheck.token, routes.user.infos);
+app.get('/history', autorizationCheck.api, autorizationCheck.token, routes.results.history);
 
 
 
