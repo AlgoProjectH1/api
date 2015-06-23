@@ -112,6 +112,58 @@ module.exports = {
     },
 
     /**
+     * Add a user
+     * @param object options
+     * @param function success
+     * @param function failure
+     */
+    signup: function (options, failure, success) {
+        if (options.email === null) {
+            failure("L'email fourni est invalide");
+            return false;
+        }
+
+        if (options.password === null) {
+            failure("Le mot de passe fourni est invalide");
+            return false;
+        }
+
+        if (options.pseudo === null) {
+            failure("Le pseudo fourni est invalide");
+            return false;
+        }
+
+        var password = this.sha1(options.password);
+        var connection = this.connection;
+        var tokenManager = this.tokenManager;
+
+        // Verify the provided connection infos
+        connection.query("INSERT INTO users SET email = '" + options.email +"', password = '"+ password +"', username = '"+ options.pseudo +"'", function (error, result)
+        {
+            if (error) {
+                console.log(error);
+                failure("Une erreur est survenue");
+                return false;
+            }
+
+            var user_id = result.insertId;
+            var token = tokenManager.generate();
+
+            // Save the token
+            connection.query("INSERT INTO tokens SET token = '"+ token +"', users_id = "+ user_id +", device = '"+ options.device +"'", function (error)
+            {
+                if (error) {
+                    console.log(error);
+                    failure("Une erreur est survenue durant la génération du jeton de connexion");
+                    return false;
+                }
+
+                success(tokenManager.format(token, user_id));
+            });
+        });
+    },
+
+    /**
      * Get user datas from an id
      * @param int id
      * @param function failure

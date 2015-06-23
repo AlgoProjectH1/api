@@ -43,15 +43,15 @@ signUp.index = function (req, res) {
         return false;
     }
 
-    // signUp.models.users.signup({
-    //     email: email,
-    //     pseudo: pseudo,
-    //     password: password,
-    //     device: 'computer'
-    // },
-    //     function (error) { signUp.failure(res, error); },
-    //     function (token) { signUp.success(res, token); }
-    // );
+    signUp.models.users.signup({
+        email: email,
+        pseudo: pseudo,
+        password: password,
+        device: 'computer'
+    },
+        function (error) { signUp.failure(res, error); },
+        function (token) { signUp.success(res, token); }
+    );
 
 };
 
