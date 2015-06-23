@@ -49,6 +49,7 @@ var app = express();
 var routes = {
     home:       require('./src/controllers/root.js'),
     login:      require('./src/controllers/login.js'),
+    signup:     require('./src/controllers/signup.js'),
     facebook:   require ('./src/controllers/facebook.login.js'),
     token:      require ('./src/controllers/token.js'),
     user:       require ('./src/controllers/user.js')
@@ -76,6 +77,7 @@ app.use(headersInit());
  */
 app.get('/', autorizationCheck.api, routes.home);
 app.post('/login', autorizationCheck.api, routes.login);
+app.post('/signup', autorizationCheck.api, routes.signup);
 app.post('/login/facebook', autorizationCheck.api, routes.facebook);
 app.get('/token', autorizationCheck.api, routes.token);
 app.get('/me', autorizationCheck.api, autorizationCheck.token, routes.user.infos);
